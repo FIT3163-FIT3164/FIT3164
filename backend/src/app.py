@@ -1,5 +1,10 @@
 from flask import Flask, Response
+import os
+import sys
+
+sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
 from api.camera import generate_frames
+
 
 app = Flask(__name__)
 
