@@ -10,7 +10,12 @@ export default function Home() {
             Sign Language Recognition
           </h1>
           <p className="text-lg font-semibold mt-5 px-lg-5">
-            A web-based real-time sign language recognition system using a deep learning transformer architecture with depth information from an Intel Realsense D435, fine-tuned on the multi-modal How2Sign dataset to transcribe American Sign Language (ASL) into English text with an accuracy of 82.5%, enhanced with autocorrect and predictive text functionalities.
+            A web-based real-time sign language recognition system using a deep
+            learning transformer architecture with depth information from an
+            Intel Realsense D435, fine-tuned on the multi-modal How2Sign dataset
+            to transcribe American Sign Language (ASL) into English text with an
+            accuracy of 82.5%, enhanced with autocorrect and predictive text
+            functionalities.
           </p>
         </div>
         <div className="row g-4 g-lg-4">

@@ -1,0 +1,11 @@
+import pyrealsense2 as rs
+
+DEPTH_WIDTH = 848
+DEPTH_HEIGHT = 480
+DEPTH_FORMAT = rs.format.z16
+DEPTH_FPS = 60
+
+COLOR_WIDTH = 848
+COLOR_HEIGHT = 480
+COLOR_FORMAT = rs.format.bgr8
+COLOR_FPS = 60

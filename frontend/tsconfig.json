@@ -25,13 +25,12 @@
       "@/*": [
         "./src/*"
       ]
-    }
-  },
+    }  },
   "include": [
     "src/app/**/*.ts",
     "src/app/**/*.tsx",
-    "src/pages/**/*.tsx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "src/app/pages/**/*.tsx"
   ],
   "exclude": [
     "node_modules"

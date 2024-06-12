@@ -40,7 +40,7 @@ export default function RootLayout({
                   <a
                     className="nav-link active"
                     aria-current="page"
-                    href="#"
+                    href="/"
                     style={{ backgroundColor: "transparent" }}
                   >
                     Home
@@ -49,7 +49,7 @@ export default function RootLayout({
                 <li className="nav-item">
                   <a
                     className="nav-link"
-                    href="#"
+                    href="/demo"
                     style={{ backgroundColor: "transparent" }}
                   >
                     Demo - Sign Language Recognition
