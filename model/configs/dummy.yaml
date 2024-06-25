@@ -1,0 +1,74 @@
+trainer:
+  logger: train_CSLR
+  batch_size: 32
+  epochs: 50
+  seed: 1234
+  cuda: True
+  gpu: 0
+  save: True
+  log_interval: 1000
+  ctc: normal
+  optimizer:
+    type: Adam
+    lr: 0.00001
+    weight_decay: 0.00001
+  scheduler:
+    type: ReduceLRonPlateau
+    scheduler_factor: 0.5
+    scheduler_patience: 1
+    scheduler_min_lr: 5e-6
+    scheduler_verbose: 5e-6
+  model:
+    backbone:
+      cnn: resnet18
+      mode: isolated
+      temporal:
+        filters: 1024
+        kernel_size: 5
+        stride: 1
+        pool_size: 2
+        padding: 2
+      rnn:
+        type: lstm
+        hidden_size: 512
+        num_layers: 2
+        bidirectional: True
+        dropout: 0.5
+
+dataset:
+  name: gsl_si
+  modality: full
+  input_data: D:/GitHub/datasets/sign_language_datasets/datasets/gsl/data/gsl
+  images_path: D:/GitHub/datasets/sign_language_datasets/datasets/gsl/data/gsl
+  depth_path: D:/GitHub/datasets/sign_language_datasets/datasets/gsl/data/gsl
+  features_path: D:/GitHub/datasets/sign_language_datasets/datasets/gsl/data/gsl
+  train_filepath: files/GSL_continuous/gsl_split_SI_train.csv
+  dev_filepath: files/GSL_continuous/gsl_split_SI_dev.csv
+  test_filepath: files/GSL_continuous/gsl_split_SI_test.csv
+  bbox_filepath: files/GSL_continuous/bbox_for_gsl_continuous.txt
+  classes_filepath: files/GSL_continuous/classes.csv
+  classes: 311
+  normalize: True
+  padding: False
+  dim: [224, 224]
+  # dim: [112, 112]
+  channels: 3
+  img_type: png
+  train:
+    batch_size: 32
+    shuffle: True
+    num_workers: 0
+    seq_length: 250
+    augmentation: True
+  validation:
+    batch_size: 32
+    shuffle: False
+    num_workers: 0
+    seq_length: 300
+    augmentation: False
+  test:
+    batch_size: 32
+    shuffle: False
+    num_workers: 0
+    seq_length: 300
+    augmentation: False
