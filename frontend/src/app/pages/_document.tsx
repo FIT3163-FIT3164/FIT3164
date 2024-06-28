@@ -1,10 +1,12 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
 
+// custom document component
 class MyDocument extends Document {
   render() {
     return (
       <Html>
         <Head>
+          {/* meta tags for character set, viewport, description, and author */}
           <meta charSet="utf-8" />
           <meta
             name="viewport"
@@ -13,6 +15,7 @@ class MyDocument extends Document {
           <meta name="description" content="" />
           <meta name="author" content="" />
 
+          {/* favicon */}
           <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
         </Head>
         <body>

@@ -2,6 +2,7 @@ export default function Home() {
   return (
     <main className="container-xxl">
       <div className="col-md-9 px-3 mx-auto">
+        {/* main title and description */}
         <div className="text-center mt-5 mb-5">
           <h1 className="display-4 ls-tight">
             <span className="d-inline-flex bg-clip-text gradient-bottom-right start-purple-500 end-indigo-400 position-relative">
@@ -18,7 +19,9 @@ export default function Home() {
             functionalities.
           </p>
         </div>
+        {/* feature cards */}
         <div className="row g-4 g-lg-4">
+          {/* Eleventy card */}
           <div className="col-12 col-md-6">
             <div className="position-relative rounded-4 shadow-4-hover bg-surface-secondary">
               <div className="p-5 p-md-5 p-xl-5">
@@ -42,6 +45,7 @@ export default function Home() {
               </div>
             </div>
           </div>
+          {/* Bootstrap 5 card */}
           <div className="col-12 col-md-6">
             <div className="position-relative rounded-4 shadow-4-hover bg-surface-secondary">
               <div className="p-5 p-md-5 p-xl-5">
@@ -65,6 +69,7 @@ export default function Home() {
               </div>
             </div>
           </div>
+          {/* Webpixels CSS card */}
           <div className="col-12 col-md-6">
             <div className="position-relative rounded-4 shadow-4-hover bg-surface-secondary">
               <div className="p-5 p-md-5 p-xl-5">
@@ -88,6 +93,7 @@ export default function Home() {
               </div>
             </div>
           </div>
+          {/* Webpixels Components card */}
           <div className="col-12 col-md-6">
             <div className="position-relative rounded-4 shadow-4-hover bg-surface-secondary">
               <div className="p-5 p-md-5 p-xl-5">
