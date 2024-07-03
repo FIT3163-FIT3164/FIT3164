@@ -78,7 +78,7 @@ const Demo: React.FC = () => {
     // add event listener for video load (this is called when the video has loaded and dimensions are known)
     if (video) {
       // what to do when video is loaded
-      video.addEventListener("load", () => {
+      video.addEventListener("loadedmetadata", () => {
         // increment frame count and call updateResolution
         frameCount++;
         updateResolution();
@@ -89,7 +89,7 @@ const Demo: React.FC = () => {
     return () => {
       clearInterval(fpsIntervalId);
       if (video) {
-        video.removeEventListener("load", updateResolution);
+        video.removeEventListener("loadedmetadata", updateResolution);
       }
     };
   }, []);
