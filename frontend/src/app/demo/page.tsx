@@ -7,7 +7,7 @@ import React, { useRef, useEffect, useState } from "react";
 // demo component for sign language recognition
 const Demo: React.FC = () => {
   // refs for video element and container, these are HTMLImageElement (couldnt get HTMLVideoElement working) and HTMLDivElement types
-  const videoRef = useRef<HTMLImageElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // state for fps and resolution
@@ -19,6 +19,19 @@ const Demo: React.FC = () => {
     // get video and container elements defined in refs
     const video = videoRef.current;
     const container = containerRef.current;
+
+    // request camera access
+    const requestCameraAccess = async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        if (video) {
+          video.srcObject = stream;
+          video.play();
+        }
+      } catch (error) {
+        console.error("Error accessing the camera:", error);
+      }
+    };
 
     // set initial frame count and start time
     let frameCount = 0;
@@ -45,9 +58,9 @@ const Demo: React.FC = () => {
     const updateResolution = () => {
       // check if video and container exist
       if (video && container) {
-        // get natural width and height of video
-        const width = video.naturalWidth;
-        const height = video.naturalHeight;
+        // get video width and height
+        const width = video.videoWidth;
+        const height = video.videoHeight;
 
         // call setResolution to set resolution state and set container max width and height
         setResolution(`${width}x${height}`);
@@ -56,13 +69,16 @@ const Demo: React.FC = () => {
       }
     };
 
+    // request camera access
+    requestCameraAccess();
+
     // set interval to update fps
     const fpsIntervalId = setInterval(updateFps, 1000);
 
     // add event listener for video load (this is called when the video has loaded and dimensions are known)
     if (video) {
       // what to do when video is loaded
-      video.addEventListener("load", () => {
+      video.addEventListener("loadedmetadata", () => {
         // increment frame count and call updateResolution
         frameCount++;
         updateResolution();
@@ -73,7 +89,7 @@ const Demo: React.FC = () => {
     return () => {
       clearInterval(fpsIntervalId);
       if (video) {
-        video.removeEventListener("load", updateResolution);
+        video.removeEventListener("loadedmetadata", updateResolution);
       }
     };
   }, []);
@@ -89,19 +105,18 @@ const Demo: React.FC = () => {
           </span>
         </h1>
         <p className="text-lg font-semibold mt-5 px-lg-5">
-          Experience real-time sign language recognition using the Intel
-          RealSense D435 camera.
+          Experience real-time sign language recognition using the Intel RealSense D435 camera.
         </p>
       </div>
       {/* video stream container */}
       <div className="row justify-content-center">
         <div ref={containerRef} className="col-auto">
           <div className="position-relative">
-            <img
+            <video
               ref={videoRef}
-              src="http://localhost:5000/stream"
-              alt="Sign Language Recognition"
               className="w-full h-auto rounded-4 shadow-4"
+              autoPlay
+              muted
             />
             {/* fps and resolution overlay */}
             <div className="absolute bottom-0 left-0 m-3 p-2 bg-dark text-white rounded">
