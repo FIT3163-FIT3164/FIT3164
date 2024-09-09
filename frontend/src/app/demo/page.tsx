@@ -69,6 +69,12 @@ const Demo: React.FC = () => {
       }
     };
 
+    // function to count frames
+    const countFrames = () => {
+      frameCount++;
+      requestAnimationFrame(countFrames);
+    };
+
     // request camera access
     requestCameraAccess();
 
@@ -77,11 +83,9 @@ const Demo: React.FC = () => {
 
     // add event listener for video load (this is called when the video has loaded and dimensions are known)
     if (video) {
-      // what to do when video is loaded
       video.addEventListener("loadedmetadata", () => {
-        // increment frame count and call updateResolution
-        frameCount++;
         updateResolution();
+        requestAnimationFrame(countFrames);
       });
     }
 
@@ -131,3 +135,4 @@ const Demo: React.FC = () => {
 };
 
 export default Demo;
+
