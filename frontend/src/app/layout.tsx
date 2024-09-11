@@ -89,9 +89,9 @@ export default function RootLayout({
                     aria-labelledby="navbarDropdown"
                   >
                     <li>
-                      <a className="dropdown-item" href="/team">
+                      <a className="dropdown-item" href="/ourteam">
                         <FaUsers className="me-2" />
-                        Team
+                        Our Team
                       </a>
                     </li>
                     <li>

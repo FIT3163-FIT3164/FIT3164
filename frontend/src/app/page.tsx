@@ -35,98 +35,82 @@ export default function Home() {
         {/* Feature Cards */}
         <div className="row g-4 g-lg-4">
           {/* Sign Language Recognition Demo Card */}
-          <div className="col-12 col-md-6">
-            <div className="position-relative rounded-4 shadow-4-hover bg-surface-secondary border border-primary">
-              <div className="p-5 p-md-5 p-xl-5 text-center">
-                <FaPlayCircle className="display-1 text-primary mb-3" />
-                <section>
-                  <header>
-                    <h2 className="h3 ls-tight mb-4 text-primary">Demo - Sign Language Recognition</h2>
-                  </header>
-                  <p className="text-muted mb-5">
+          <div className="col-12 col-md-6 col-lg-3">
+            <div className="card d-flex flex-column h-100 border border-primary shadow-sm">
+              <div className="card-body d-flex flex-column">
+                <div className="text-center mb-4 flex-grow-1">
+                  <FaPlayCircle className="display-1 text-primary mb-3" />
+                  <h2 className="h5 text-primary mb-3">Demo - Sign Language Recognition</h2>
+                  <p className="text-muted">
                     Try out the real-time sign language recognition demo using the Intel Realsense D435 and our deep learning model.
                   </p>
-                  <footer>
-                    <a
-                      href="/demo"
-                      className="font-semibold link-primary stretched-link"
-                    >
-                      Try the Demo &rarr;
-                    </a>
-                  </footer>
-                </section>
+                </div>
+                <a
+                  href="/demo"
+                  className="btn btn-outline-primary mt-auto"
+                >
+                  Try the Demo &rarr;
+                </a>
               </div>
             </div>
           </div>
           {/* Autocorrect Demo Card */}
-          <div className="col-12 col-md-6">
-            <div className="position-relative rounded-4 shadow-4-hover bg-surface-secondary border border-success">
-              <div className="p-5 p-md-5 p-xl-5 text-center">
-                <FaRegEdit className="display-1 text-success mb-3" />
-                <section>
-                  <header>
-                    <h2 className="h3 ls-tight mb-4 text-success">Demo - Autocorrect</h2>
-                  </header>
-                  <p className="text-muted mb-5">
+          <div className="col-12 col-md-6 col-lg-3">
+            <div className="card d-flex flex-column h-100 border border-success shadow-sm">
+              <div className="card-body d-flex flex-column">
+                <div className="text-center mb-4 flex-grow-1">
+                  <FaRegEdit className="display-1 text-success mb-3" />
+                  <h2 className="h5 text-success mb-3">Demo - Autocorrect</h2>
+                  <p className="text-muted">
                     Experience the autocorrect and predictive text functionalities integrated with sign language recognition.
                   </p>
-                  <footer>
-                    <a
-                      href="/demo-autocorrect"
-                      className="font-semibold link-success stretched-link"
-                    >
-                      Try the Demo &rarr;
-                    </a>
-                  </footer>
-                </section>
+                </div>
+                <a
+                  href="#"
+                  className="btn btn-outline-success mt-auto"
+                >
+                  Try the Demo &rarr;
+                </a>
               </div>
             </div>
           </div>
           {/* Team Card */}
-          <div className="col-12 col-md-6">
-            <div className="position-relative rounded-4 shadow-4-hover bg-surface-secondary border border-warning">
-              <div className="p-5 p-md-5 p-xl-5 text-center">
-                <FaUsers className="display-1 text-warning mb-3" />
-                <section>
-                  <header>
-                    <h2 className="h3 ls-tight mb-4 text-warning">Our Team</h2>
-                  </header>
-                  <p className="text-muted mb-5">
+          <div className="col-12 col-md-6 col-lg-3">
+            <div className="card d-flex flex-column h-100 border border-warning shadow-sm">
+              <div className="card-body d-flex flex-column">
+                <div className="text-center mb-4 flex-grow-1">
+                  <FaUsers className="display-1 text-warning mb-3" />
+                  <h2 className="h5 text-warning mb-3">Our Team</h2>
+                  <p className="text-muted">
                     Learn about the team behind this project, including their roles and contributions to making this system a reality.
                   </p>
-                  <footer>
-                    <a
-                      href="/team"
-                      className="font-semibold link-warning stretched-link"
-                    >
-                      Meet the Team &rarr;
-                    </a>
-                  </footer>
-                </section>
+                </div>
+                <a
+                  href="/ourteam"
+                  className="btn btn-outline-warning mt-auto"
+                >
+                  Meet the Team &rarr;
+                </a>
               </div>
             </div>
           </div>
           {/* Documentation Card */}
-          <div className="col-12 col-md-6">
-            <div className="position-relative rounded-4 shadow-4-hover bg-surface-secondary border border-info">
-              <div className="p-5 p-md-5 p-xl-5 text-center">
-                <FaBook className="display-1 text-info mb-3" />
-                <section>
-                  <header>
-                    <h2 className="h3 ls-tight mb-4 text-info">Documentation</h2>
-                  </header>
-                  <p className="text-muted mb-5">
+          <div className="col-12 col-md-6 col-lg-3">
+            <div className="card d-flex flex-column h-100 border border-info shadow-sm">
+              <div className="card-body d-flex flex-column">
+                <div className="text-center mb-4 flex-grow-1">
+                  <FaBook className="display-1 text-info mb-3" />
+                  <h2 className="h5 text-info mb-3">Documentation</h2>
+                  <p className="text-muted">
                     Access the full documentation for the system, including installation guides, API references, and tutorials.
                   </p>
-                  <footer>
-                    <a
-                      href="/documentation"
-                      className="font-semibold link-info stretched-link"
-                    >
-                      View Documentation &rarr;
-                    </a>
-                  </footer>
-                </section>
+                </div>
+                <a
+                  href="/documentation"
+                  className="btn btn-outline-info mt-auto"
+                >
+                  View Documentation &rarr;
+                </a>
               </div>
             </div>
           </div>
