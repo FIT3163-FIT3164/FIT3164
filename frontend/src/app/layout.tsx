@@ -95,7 +95,7 @@ export default function RootLayout({
                       </a>
                     </li>
                     <li>
-                      <a className="dropdown-item" href="/documentation">
+                      <a className="dropdown-item" href="/pages">
                         <FaBook className="me-2" />
                         Documentation
                       </a>

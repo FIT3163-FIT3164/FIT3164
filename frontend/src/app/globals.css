@@ -11,7 +11,7 @@ html, body {
 	height: 100%;
 	margin: 0; /* Remove any default margin */
 	padding: 0; /* Remove any default padding */
-	background: linear-gradient(135deg, #ffb2ee, #cca8ff); /* Your gradient */
+	background: linear-gradient(135deg, #94f6fa, #a4a2fd); /* Your gradient */
 }
   
 
@@ -21,7 +21,7 @@ html, body {
 }
 
 .gradient-bottom-right {
-	background: linear-gradient(135deg, #fb9ce6, #ad7bf2);
+	background: linear-gradient(135deg, #94f6fa, #a4a2fd);
 }
 
 .bg-clip-text {

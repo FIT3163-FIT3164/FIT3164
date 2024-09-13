@@ -1,104 +1,127 @@
-// "use client" that tells the backend to serve this file to the client
 "use client";
 
-// import React and hooks
 import React, { useRef, useEffect, useState } from "react";
 
-// demo component for sign language recognition
 const Demo: React.FC = () => {
-  // refs for video element and container, these are HTMLImageElement (couldnt get HTMLVideoElement working) and HTMLDivElement types
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // state for fps and resolution
   const [fps, setFps] = useState(0);
   const [resolution, setResolution] = useState("");
+  const [devices, setDevices] = useState<MediaDeviceInfo[]>([]);
+  const [selectedDeviceId, setSelectedDeviceId] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  // effect to update fps and resolution (useEffect is a hook that runs after the first render and after every update)
   useEffect(() => {
-    // get video and container elements defined in refs
+    // Function to check permissions explicitly
+    const requestPermissions = async () => {
+      try {
+        const permission = await navigator.permissions.query({ name: 'camera' as PermissionName });
+        if (permission.state === 'denied') {
+          setError("Camera access is denied. Please allow camera permissions in your browser settings.");
+          return;
+        }
+        // Prompt user for camera access if not granted yet
+        if (permission.state !== 'granted') {
+          await navigator.mediaDevices.getUserMedia({ video: true });
+        }
+        getVideoDevices();
+      } catch (error) {
+        console.error("Error requesting camera permissions:", error);
+        setError("Error requesting camera permissions. Please check your browser settings.");
+      }
+    };
+
+    const getVideoDevices = async () => {
+      try {
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        const videoDevices = devices.filter((device) => device.kind === "videoinput");
+        setDevices(videoDevices);
+
+        // Automatically select the first device if none selected
+        if (videoDevices.length > 0 && !selectedDeviceId) {
+          setSelectedDeviceId(videoDevices[0].deviceId);
+        }
+      } catch (error) {
+        console.error("Error accessing devices:", error);
+        setError("Unable to access video devices. Please check your permissions or device connection.");
+      }
+    };
+
+    requestPermissions();
+  }, [selectedDeviceId]);
+
+  useEffect(() => {
     const video = videoRef.current;
     const container = containerRef.current;
 
-    // request camera access
-    const requestCameraAccess = async () => {
+    const requestCameraAccess = async (deviceId?: string) => {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: {
+            deviceId: deviceId ? { exact: deviceId } : undefined,
+            width: { ideal: 1920 },
+            height: { ideal: 1080 },
+          },
+        });
         if (video) {
           video.srcObject = stream;
           video.play();
         }
       } catch (error) {
         console.error("Error accessing the camera:", error);
+        setError("Failed to access the camera. Please check permissions or device availability.");
       }
     };
 
-    // set initial frame count and start time
     let frameCount = 0;
     let startTime = Date.now();
 
-    // function to update fps
     const updateFps = () => {
-      // get current time
       const currentTime = Date.now();
-
-      // calculate elapsed time and divide by 1000 to get seconds
       const elapsedTime = (currentTime - startTime) / 1000;
-
-      // calculate current fps by dividing frame count by elapsed time
       const currentFps = Math.round(frameCount / elapsedTime);
-
-      // set fps and reset frame count and start time
       setFps(currentFps);
       frameCount = 0;
       startTime = currentTime;
     };
 
-    // function to update resolution and container size
     const updateResolution = () => {
-      // check if video and container exist
       if (video && container) {
-        // get video width and height
         const width = video.videoWidth;
         const height = video.videoHeight;
-
-        // call setResolution to set resolution state and set container max width and height
         setResolution(`${width}x${height}`);
         container.style.maxWidth = `${width}px`;
         container.style.maxHeight = `${height}px`;
       }
     };
 
-    // function to count frames
     const countFrames = () => {
       frameCount++;
       requestAnimationFrame(countFrames);
     };
 
-    // request camera access
-    requestCameraAccess();
+    if (selectedDeviceId) {
+      requestCameraAccess(selectedDeviceId);
+    }
 
-    // set interval to update fps
     const fpsIntervalId = setInterval(updateFps, 1000);
 
-    // add event listener for video load (this is called when the video has loaded and dimensions are known)
     if (video) {
-      video.addEventListener("loadedmetadata", () => {
+      video.addEventListener("loadeddata", () => {
         updateResolution();
         requestAnimationFrame(countFrames);
       });
     }
 
-    // cleanup function to clear interval and remove event listener
     return () => {
       clearInterval(fpsIntervalId);
       if (video) {
-        video.removeEventListener("loadedmetadata", updateResolution);
+        video.removeEventListener("loadeddata", updateResolution);
       }
     };
-  }, []);
+  }, [selectedDeviceId]);
 
-  // render component
   return (
     <main className="container-xxl">
       {/* title and description */}
@@ -111,6 +134,27 @@ const Demo: React.FC = () => {
         <p className="text-lg font-semibold mt-5 px-lg-5">
           Experience real-time sign language recognition using the Intel RealSense D435 camera.
         </p>
+      </div>
+      {/* Error message */}
+      {error && <div className="alert alert-danger text-center">{error}</div>}
+      {/* Camera selection dropdown */}
+      <div className="text-center mb-4">
+        <label htmlFor="cameraSelect" className="form-label">
+          Select Camera:
+        </label>
+        <select
+          id="cameraSelect"
+          className="form-select form-select-sm"
+          style={{ width: '200px', display: 'inline-block' }}
+          onChange={(e) => setSelectedDeviceId(e.target.value)}
+          value={selectedDeviceId || ""}
+        >
+          {devices.map((device) => (
+            <option key={device.deviceId} value={device.deviceId}>
+              {device.label || `Camera ${device.deviceId}`}
+            </option>
+          ))}
+        </select>
       </div>
       {/* video stream container */}
       <div className="row justify-content-center">
@@ -135,4 +179,3 @@ const Demo: React.FC = () => {
 };
 
 export default Demo;
-
