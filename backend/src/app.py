@@ -4,6 +4,8 @@ import os
 import sys
 
 # set up the python path to include the current directory
+
+
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 # import the function to generate video frames
@@ -26,3 +28,5 @@ def video_feed():
 # run the application if this script is executed directly
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+    def
+    
