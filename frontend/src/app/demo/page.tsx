@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef, useEffect, useState } from "react";
+import axios from "axios";
 
 const Demo: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -10,45 +11,27 @@ const Demo: React.FC = () => {
   const [resolution, setResolution] = useState("");
   const [devices, setDevices] = useState<MediaDeviceInfo[]>([]);
   const [selectedDeviceId, setSelectedDeviceId] = useState<string | null>(null);
+  const [prediction, setPrediction] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Function to check permissions explicitly
-    const requestPermissions = async () => {
-      try {
-        const permission = await navigator.permissions.query({ name: 'camera' as PermissionName });
-        if (permission.state === 'denied') {
-          setError("Camera access is denied. Please allow camera permissions in your browser settings.");
-          return;
-        }
-        // Prompt user for camera access if not granted yet
-        if (permission.state !== 'granted') {
-          await navigator.mediaDevices.getUserMedia({ video: true });
-        }
-        getVideoDevices();
-      } catch (error) {
-        console.error("Error requesting camera permissions:", error);
-        setError("Error requesting camera permissions. Please check your browser settings.");
-      }
-    };
-
+    // Function to request camera access and get the devices
     const getVideoDevices = async () => {
       try {
         const devices = await navigator.mediaDevices.enumerateDevices();
         const videoDevices = devices.filter((device) => device.kind === "videoinput");
         setDevices(videoDevices);
 
-        // Automatically select the first device if none selected
         if (videoDevices.length > 0 && !selectedDeviceId) {
-          setSelectedDeviceId(videoDevices[0].deviceId);
+          setSelectedDeviceId(videoDevices[0].deviceId);  // Automatically select the first camera
         }
-      } catch (error) {
-        console.error("Error accessing devices:", error);
+      } catch (err) {
+        console.error("Error accessing video devices:", err);
         setError("Unable to access video devices. Please check your permissions or device connection.");
       }
     };
 
-    requestPermissions();
+    getVideoDevices();
   }, [selectedDeviceId]);
 
   useEffect(() => {
@@ -57,20 +40,32 @@ const Demo: React.FC = () => {
 
     const requestCameraAccess = async (deviceId?: string) => {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({
+        const constraints = {
           video: {
             deviceId: deviceId ? { exact: deviceId } : undefined,
             width: { ideal: 1920 },
             height: { ideal: 1080 },
           },
-        });
+        };
+
+        // Try accessing the camera stream
+        const stream = await navigator.mediaDevices.getUserMedia(constraints);
+
         if (video) {
           video.srcObject = stream;
           video.play();
         }
-      } catch (error) {
-        console.error("Error accessing the camera:", error);
+      } catch (err) {
+        console.error("Error accessing the camera:", err);
+
+        // Update the error state to display the message
         setError("Failed to access the camera. Please check permissions or device availability.");
+
+        // Retry without specifying a deviceId to get a fallback default camera
+        if (deviceId) {
+          console.log("Retrying camera access without a specific deviceId...");
+          requestCameraAccess();  // Retry without specifying a deviceId
+        }
       }
     };
 
@@ -102,7 +97,7 @@ const Demo: React.FC = () => {
     };
 
     if (selectedDeviceId) {
-      requestCameraAccess(selectedDeviceId);
+      requestCameraAccess(selectedDeviceId);  // Request camera with the selected deviceId
     }
 
     const fpsIntervalId = setInterval(updateFps, 1000);
@@ -121,6 +116,47 @@ const Demo: React.FC = () => {
       }
     };
   }, [selectedDeviceId]);
+
+  useEffect(() => {
+    const video = videoRef.current;
+  
+    const captureFrames = () => {
+      const canvas = document.createElement("canvas");
+      if (!video) return;
+  
+      const context = canvas.getContext("2d");
+      if (context) {
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+  
+        canvas.toBlob(async (blob) => {
+          if (blob) {
+            console.log("Captured frame size:", canvas.width, canvas.height);  // Log the frame size to ensure proper capture
+  
+            const formData = new FormData();
+            formData.append("frame", blob, "frame.png");
+  
+            try {
+              const response = await axios.post("http://localhost:5000/predict", formData, {
+                headers: { "Content-Type": "multipart/form-data" },
+              });
+              console.log("Prediction:", response.data);  // Log the prediction from the server
+              setPrediction(response.data.prediction);
+            } catch (err) {
+              console.error("Error sending frame for prediction:", err);
+            }
+          }
+        }, "image/png");
+      }
+    };
+  
+    // Capture frame every 500ms
+    const intervalId = setInterval(captureFrames, 500);
+    return () => clearInterval(intervalId);
+  }, [videoRef]);
+  
+  
 
   return (
     <main className="container-xxl">
@@ -170,6 +206,7 @@ const Demo: React.FC = () => {
             <div className="absolute bottom-0 left-0 m-3 p-2 bg-dark text-white rounded">
               <div>FPS: {fps}</div>
               <div>Resolution: {resolution}</div>
+              <div>Prediction: {prediction || "Waiting for hand..."}</div>
             </div>
           </div>
         </div>

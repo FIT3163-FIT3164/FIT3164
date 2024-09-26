@@ -34,13 +34,13 @@ export default function Home() {
         </div>
         {/* Feature Cards */}
         <div className="row g-4 g-lg-4">
-          {/* Sign Language Recognition Demo Card */}
+          {/* American Sign Language Recognition */}
           <div className="col-12 col-md-6 col-lg-3">
             <div className="card d-flex flex-column h-100 border border-primary shadow-sm">
               <div className="card-body d-flex flex-column">
                 <div className="text-center mb-4 flex-grow-1">
                   <FaPlayCircle className="display-1 text-primary mb-3" />
-                  <h2 className="h5 text-primary mb-3">Demo - Sign Language Recognition</h2>
+                  <h2 className="h5 text-primary mb-3">Demo - American Sign Language Recognition (Isolated)</h2>
                   <p className="text-muted">
                     Try out the real-time sign language recognition demo using the Intel Realsense D435 and our deep learning model.
                   </p>
@@ -54,13 +54,13 @@ export default function Home() {
               </div>
             </div>
           </div>
-          {/* Autocorrect Demo Card */}
+          {/* Greek Sign Language Recognition */}
           <div className="col-12 col-md-6 col-lg-3">
             <div className="card d-flex flex-column h-100 border border-success shadow-sm">
               <div className="card-body d-flex flex-column">
                 <div className="text-center mb-4 flex-grow-1">
                   <FaRegEdit className="display-1 text-success mb-3" />
-                  <h2 className="h5 text-success mb-3">Demo - Autocorrect</h2>
+                  <h2 className="h5 text-success mb-3">Demo - Greek Sign Language Recognition (Continuous)</h2>
                   <p className="text-muted">
                     Experience the autocorrect and predictive text functionalities integrated with sign language recognition.
                   </p>
