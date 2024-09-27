@@ -3,8 +3,25 @@
 import React, { useRef, useEffect, useState } from "react";
 import axios from "axios";
 
+// Define the type for landmarks
+interface Landmark {
+  x: number;
+  y: number;
+}
+
+// MediaPipe hand landmark connections
+const HAND_CONNECTIONS = [
+  [0, 1], [1, 2], [2, 3], [3, 4],  // Thumb
+  [0, 5], [5, 6], [6, 7], [7, 8],  // Index finger
+  [5, 9], [9, 10], [10, 11], [11, 12],  // Middle finger
+  [9, 13], [13, 14], [14, 15], [15, 16],  // Ring finger
+  [13, 17], [17, 18], [18, 19], [19, 20],  // Pinky finger
+  [0, 17]  // Palm base
+];
+
 const Demo: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const [fps, setFps] = useState(0);
@@ -43,24 +60,24 @@ const Demo: React.FC = () => {
         const constraints = {
           video: {
             deviceId: deviceId ? { exact: deviceId } : undefined,
-            width: { ideal: 1920 },
-            height: { ideal: 1080 },
+            width: { exact: 640 }, // Fixed width
+            height: { exact: 480 }, // Fixed height
           },
         };
-
+    
         // Try accessing the camera stream
         const stream = await navigator.mediaDevices.getUserMedia(constraints);
-
+    
         if (video) {
           video.srcObject = stream;
           video.play();
         }
       } catch (err) {
         console.error("Error accessing the camera:", err);
-
+    
         // Update the error state to display the message
         setError("Failed to access the camera. Please check permissions or device availability.");
-
+    
         // Retry without specifying a deviceId to get a fallback default camera
         if (deviceId) {
           console.log("Retrying camera access without a specific deviceId...");
@@ -68,6 +85,7 @@ const Demo: React.FC = () => {
         }
       }
     };
+    
 
     let frameCount = 0;
     let startTime = Date.now();
@@ -119,10 +137,10 @@ const Demo: React.FC = () => {
 
   useEffect(() => {
     const video = videoRef.current;
+    const canvas = canvasRef.current;
   
     const captureFrames = () => {
-      const canvas = document.createElement("canvas");
-      if (!video) return;
+      if (!video || !canvas) return;
   
       const context = canvas.getContext("2d");
       if (context) {
@@ -136,13 +154,62 @@ const Demo: React.FC = () => {
   
             const formData = new FormData();
             formData.append("frame", blob, "frame.png");
-  
+
             try {
               const response = await axios.post("http://localhost:5000/predict", formData, {
                 headers: { "Content-Type": "multipart/form-data" },
               });
-              console.log("Prediction:", response.data);  // Log the prediction from the server
-              setPrediction(response.data.prediction);
+
+              const { prediction, landmarks, boundingBox } = response.data;
+              console.log("Prediction:", prediction);  // Log the prediction from the server
+              setPrediction(prediction);
+
+              // Draw bounding box and landmarks
+              if (context && landmarks && boundingBox) {
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                
+                // Draw bounding box
+                context.strokeStyle = "green";
+                context.lineWidth = 2;
+                context.strokeRect(
+                  boundingBox.x_min,
+                  boundingBox.y_min,
+                  boundingBox.x_max - boundingBox.x_min,
+                  boundingBox.y_max - boundingBox.y_min
+                );
+
+                // Draw hand landmarks (red dots and connections)
+                context.fillStyle = "red";
+                const landmarkPoints = landmarks as Landmark[];
+
+                // Draw dots
+                landmarkPoints.forEach(({ x, y }) => {
+                  context.beginPath();
+                  context.arc(x, y, 5, 0, 2 * Math.PI);
+                  context.fill();
+                });
+
+                // Draw connections
+                context.strokeStyle = "white";
+                context.lineWidth = 2;
+                HAND_CONNECTIONS.forEach(([startIdx, endIdx]) => {
+                  const start = landmarkPoints[startIdx];
+                  const end = landmarkPoints[endIdx];
+                  if (start && end) {
+                    context.beginPath();
+                    context.moveTo(start.x, start.y);
+                    context.lineTo(end.x, end.y);
+                    context.stroke();
+                  }
+                });
+
+                // Draw predicted letter above bounding box
+                context.fillStyle = "Green";
+                context.font = "20px Arial";
+                context.fillText(prediction, boundingBox.x_min, boundingBox.y_min - 10);
+              }
+
             } catch (err) {
               console.error("Error sending frame for prediction:", err);
             }
@@ -156,8 +223,6 @@ const Demo: React.FC = () => {
     return () => clearInterval(intervalId);
   }, [videoRef]);
   
-  
-
   return (
     <main className="container-xxl">
       {/* title and description */}
@@ -202,6 +267,7 @@ const Demo: React.FC = () => {
               autoPlay
               muted
             />
+            <canvas ref={canvasRef} className="position-absolute" style={{ top: 0, left: 0 }}></canvas>
             {/* fps and resolution overlay */}
             <div className="absolute bottom-0 left-0 m-3 p-2 bg-dark text-white rounded">
               <div>FPS: {fps}</div>
