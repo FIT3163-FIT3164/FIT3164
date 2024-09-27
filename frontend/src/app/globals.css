@@ -8,12 +8,14 @@
 
 /* Set html and body to full height */
 html, body {
-	height: 100%;
-	margin: 0; /* Remove any default margin */
-	padding: 0; /* Remove any default padding */
-	background: linear-gradient(135deg, #94f6fa, #a4a2fd); /* Your gradient */
-}
-  
+	background-image: url('/wallpaper3.jpg'); /* No need to include 'public' */
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	min-height: 100vh;
+	margin: 0;
+	padding: 0;
+  }
 
 
 .navbar {
@@ -29,7 +31,3 @@ html, body {
 	background-clip: text;
 	-webkit-background-clip: text;
 }
-
-
-
-  

@@ -26,14 +26,14 @@ export default function Team() {
   ];
 
   return (
-    <section className="min-h-screen bg-gradient-to-b from-purple-50 via-white to-purple-50 flex items-center justify-center py-10"> {/* Centering vertically and reducing top padding */}
+    <section className="min-h-screen bg-gradient-to-b from-blue-50 via-white to-purple-50 flex items-center justify-center py-2"> {/* Centering vertically and reducing top padding */}
       <div className="container mx-auto px-6 text-center">
         <h1 className="display-4 ls-tight">
-          <span className="d-inline-flex bg-clip-text gradient-bottom-right start-purple-500 end-indigo-400 position-relative">
+          <span className="d-inline-flex bg-clip-text gradient-bottom-right start-blue-500 end-indigo-400 position-relative">
             Our Team
           </span>
         </h1>
-        <p className="text-lg text-gray-600 mb-12 max-w-2xl mx-auto">
+        <p className="text-lg text-black-600 mb-12 max-w-2xl mx-auto">
           We strive to do everything so that you can comfortably and
           productively work in our space and create amazing products and
           services.

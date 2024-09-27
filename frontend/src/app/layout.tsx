@@ -58,7 +58,7 @@ export default function RootLayout({
                     style={{ backgroundColor: "transparent" }}
                   >
                     <FaPlay className="me-2" />
-                    Demo - Sign Language Recognition
+                    Demo - ASL Recognition
                   </a>
                 </li>
                 <li className="nav-item">
@@ -68,7 +68,7 @@ export default function RootLayout({
                     style={{ backgroundColor: "transparent" }}
                   >
                     <FaEdit className="me-2" />
-                    Demo - Autocorrect
+                    Demo - GSL Recognition
                   </a>
                 </li>
                 <li className="nav-item dropdown">
@@ -95,7 +95,7 @@ export default function RootLayout({
                       </a>
                     </li>
                     <li>
-                      <a className="dropdown-item" href="/pages">
+                      <a className="dropdown-item" href="/doc">
                         <FaBook className="me-2" />
                         Documentation
                       </a>

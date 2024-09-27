@@ -12,7 +12,7 @@ export default function Home() {
         {/* Main Title and Description */}
         <div className="text-center mt-5 mb-5">
           <h1 className="display-4 ls-tight mb-4">
-            <span className="d-inline-flex bg-clip-text gradient-bottom-right start-purple-500 end-indigo-400 position-relative">
+            <span className="d-inline-flex bg-clip-text gradient-bottom-right start-blue-500 end-indigo-400 position-relative">
               Realtime
             </span>{" "}
             Sign Language Recognition
@@ -40,9 +40,9 @@ export default function Home() {
               <div className="card-body d-flex flex-column">
                 <div className="text-center mb-4 flex-grow-1">
                   <FaPlayCircle className="display-1 text-primary mb-3" />
-                  <h2 className="h5 text-primary mb-3">Demo - American Sign Language Recognition (Isolated)</h2>
+                  <h2 className="h5 text-primary mb-3">American Sign Language Recognition</h2>
                   <p className="text-muted">
-                    Try out the real-time sign language recognition demo using the Intel Realsense D435 and our deep learning model.
+                    Try out the real-time isolated American Sign Language Recognition demo using the Intel Realsense D435 or any camera and our deep learning model.
                   </p>
                 </div>
                 <a
@@ -60,9 +60,9 @@ export default function Home() {
               <div className="card-body d-flex flex-column">
                 <div className="text-center mb-4 flex-grow-1">
                   <FaRegEdit className="display-1 text-success mb-3" />
-                  <h2 className="h5 text-success mb-3">Demo - Greek Sign Language Recognition (Continuous)</h2>
+                  <h2 className="h5 text-success mb-3">Greek Sign Language Recognition</h2>
                   <p className="text-muted">
-                    Experience the autocorrect and predictive text functionalities integrated with sign language recognition.
+                  Try out the real-time continuous Greek Sign Language Recognition Recognition demo using the Intel Realsense D435 or any camera and our deep learning model.
                   </p>
                 </div>
                 <a
@@ -106,7 +106,7 @@ export default function Home() {
                   </p>
                 </div>
                 <a
-                  href="/documentation"
+                  href="/doc"
                   className="btn btn-outline-info mt-auto"
                 >
                   View Documentation &rarr;

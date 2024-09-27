@@ -1,34 +1,16 @@
 {
-  "name": "backend",
-  "version": "0.1.0",
-  "private": true,
+  "name": "frontend",
+  "version": "1.0.0",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint ./"
+    "start-frontend": "next dev",
+    "start-backend": "cd ../backend && python src/app.py",  
+    "dev": "concurrently \"npm run start-frontend\" \"npm run start-backend\""
   },
   "dependencies": {
-    "autoprefixer": "^10.4.19",
+    "concurrently": "^6.0.0",
     "axios": "^1.7.7",
-    "bootstrap-icons": "^1.11.3",
-    "next": "^14.2.3",
-    "postcss": "^8.4.38",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-icons": "^5.3.0",
-    "socket.io-client": "^4.8.0",
-    "tailwindcss": "^3.4.4"
-  },
-  "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "@webpixels/css": "^1.2.6",
-    "bootstrap": "^5.2.3",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.3",
-    "sass": "^1.77.4",
-    "typescript": "^5"
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "next": "^14.2.3"
   }
 }

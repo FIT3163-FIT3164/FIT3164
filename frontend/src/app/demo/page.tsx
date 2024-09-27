@@ -35,6 +35,9 @@ const Demo: React.FC = () => {
     // Function to request camera access and get the devices
     const getVideoDevices = async () => {
       try {
+        // Prompt user for camera access immediately
+        await navigator.mediaDevices.getUserMedia({ video: true });
+
         const devices = await navigator.mediaDevices.enumerateDevices();
         const videoDevices = devices.filter((device) => device.kind === "videoinput");
         setDevices(videoDevices);
@@ -226,7 +229,7 @@ const Demo: React.FC = () => {
   return (
     <main className="container-xxl">
       {/* title and description */}
-      <div className="text-center mt-5 mb-5">
+      {/* <div className="text-center mt-5 mb-5">
         <h1 className="display-4 ls-tight">
           <span className="d-inline-flex bg-clip-text gradient-bottom-right start-purple-500 end-indigo-400 position-relative">
             Sign Language Recognition Demo
@@ -235,30 +238,12 @@ const Demo: React.FC = () => {
         <p className="text-lg font-semibold mt-5 px-lg-5">
           Experience real-time sign language recognition using the Intel RealSense D435 camera.
         </p>
-      </div>
+      </div> */}
       {/* Error message */}
       {error && <div className="alert alert-danger text-center">{error}</div>}
-      {/* Camera selection dropdown */}
-      <div className="text-center mb-4">
-        <label htmlFor="cameraSelect" className="form-label">
-          Select Camera:
-        </label>
-        <select
-          id="cameraSelect"
-          className="form-select form-select-sm"
-          style={{ width: '200px', display: 'inline-block' }}
-          onChange={(e) => setSelectedDeviceId(e.target.value)}
-          value={selectedDeviceId || ""}
-        >
-          {devices.map((device) => (
-            <option key={device.deviceId} value={device.deviceId}>
-              {device.label || `Camera ${device.deviceId}`}
-            </option>
-          ))}
-        </select>
-      </div>
+      
       {/* video stream container */}
-      <div className="row justify-content-center">
+      <div className="row justify-content-center mt-2">
         <div ref={containerRef} className="col-auto">
           <div className="position-relative">
             <video
@@ -268,11 +253,31 @@ const Demo: React.FC = () => {
               muted
             />
             <canvas ref={canvasRef} className="position-absolute" style={{ top: 0, left: 0 }}></canvas>
+            
             {/* fps and resolution overlay */}
             <div className="absolute bottom-0 left-0 m-3 p-2 bg-dark text-white rounded">
               <div>FPS: {fps}</div>
               <div>Resolution: {resolution}</div>
               <div>Prediction: {prediction || "Waiting for hand..."}</div>
+            </div>
+            {/* Camera selection dropdown */}
+            <div className="text-center mb-4">
+              <label htmlFor="cameraSelect" className="form-label">
+                Select Camera:
+              </label>
+              <select
+                id="cameraSelect"
+                className="form-select form-select-sm"
+                style={{ width: '200px', display: 'inline-block' }}
+                onChange={(e) => setSelectedDeviceId(e.target.value)}
+                value={selectedDeviceId || ""}
+              >
+                {devices.map((device) => (
+                  <option key={device.deviceId} value={device.deviceId}>
+                    {device.label || `Camera ${device.deviceId}`}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
         </div>
