@@ -6,12 +6,22 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Set html and body to full height */
+html, body {
+	height: 100%;
+	margin: 0; /* Remove any default margin */
+	padding: 0; /* Remove any default padding */
+	background: linear-gradient(135deg, #94f6fa, #a4a2fd); /* Your gradient */
+}
+  
+
+
 .navbar {
 	padding: 0.01rem;
 }
 
 .gradient-bottom-right {
-	background: linear-gradient(135deg, #a855f7, #6366f1);
+	background: linear-gradient(135deg, #94f6fa, #a4a2fd);
 }
 
 .bg-clip-text {
@@ -19,3 +29,7 @@
 	background-clip: text;
 	-webkit-background-clip: text;
 }
+
+
+
+  

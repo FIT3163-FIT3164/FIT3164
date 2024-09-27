@@ -1,29 +1,28 @@
 import { Metadata } from "next";
 import Script from "next/script";
 import "./globals.css";
+import { FaHome, FaPlay, FaEdit, FaUsers, FaBook } from 'react-icons/fa';
 
-// metadata for the application
+// Metadata for the application
 export const metadata: Metadata = {
   title: "FIT3164 - Sign Language Recognition",
   description: "FIT3164 - MDS08",
 };
 
-// root layout component
+// Root layout component
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
       <body>
-        {/* navigation bar */}
+        {/* Navigation Bar */}
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
           <div className="container">
             <a className="navbar-brand" href="#">
               FIT3164 - MDS08
             </a>
-            {/* mobile toggle button */}
+            {/* Mobile Toggle Button */}
             <button
               className="navbar-toggler"
               type="button"
@@ -35,13 +34,12 @@ export default function RootLayout({
             >
               <span className="navbar-toggler-icon"></span>
             </button>
-            {/* navbar links */}
+            {/* Navbar Links */}
             <div
               className="collapse navbar-collapse"
               id="navbarSupportedContent"
             >
               <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-                {/* home link */}
                 <li className="nav-item">
                   <a
                     className="nav-link active"
@@ -49,16 +47,17 @@ export default function RootLayout({
                     href="/"
                     style={{ backgroundColor: "transparent" }}
                   >
+                    <FaHome className="me-2" />
                     Home
                   </a>
                 </li>
-                {/* demo links */}
                 <li className="nav-item">
                   <a
                     className="nav-link"
                     href="/demo"
                     style={{ backgroundColor: "transparent" }}
                   >
+                    <FaPlay className="me-2" />
                     Demo - Sign Language Recognition
                   </a>
                 </li>
@@ -68,10 +67,10 @@ export default function RootLayout({
                     href="#"
                     style={{ backgroundColor: "transparent" }}
                   >
+                    <FaEdit className="me-2" />
                     Demo - Autocorrect
                   </a>
                 </li>
-                {/* about dropdown */}
                 <li className="nav-item dropdown">
                   <a
                     className="nav-link dropdown-toggle"
@@ -82,6 +81,7 @@ export default function RootLayout({
                     aria-expanded="false"
                     style={{ backgroundColor: "transparent" }}
                   >
+                    <FaBook className="me-2" />
                     About
                   </a>
                   <ul
@@ -89,12 +89,14 @@ export default function RootLayout({
                     aria-labelledby="navbarDropdown"
                   >
                     <li>
-                      <a className="dropdown-item" href="#">
-                        Team
+                      <a className="dropdown-item" href="/ourteam">
+                        <FaUsers className="me-2" />
+                        Our Team
                       </a>
                     </li>
                     <li>
-                      <a className="dropdown-item" href="#">
+                      <a className="dropdown-item" href="/pages">
+                        <FaBook className="me-2" />
                         Documentation
                       </a>
                     </li>
@@ -107,9 +109,9 @@ export default function RootLayout({
             </div>
           </div>
         </nav>
-        {/* main content */}
+        {/* Main Content */}
         {children}
-        {/* bootstrap script */}
+        {/* Bootstrap Script */}
         <Script
           src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
           strategy="afterInteractive"

@@ -1,119 +1,116 @@
+"use client"; // Add this line to indicate it's a client component
+
+import { useState } from 'react';
+import { FaPlayCircle, FaRegEdit, FaUsers, FaBook, FaChevronDown, FaChevronUp } from 'react-icons/fa';
+
 export default function Home() {
+  const [isDescriptionVisible, setDescriptionVisible] = useState(false);
+
   return (
     <main className="container-xxl">
       <div className="col-md-9 px-3 mx-auto">
-        {/* main title and description */}
+        {/* Main Title and Description */}
         <div className="text-center mt-5 mb-5">
-          <h1 className="display-4 ls-tight">
+          <h1 className="display-4 ls-tight mb-4">
             <span className="d-inline-flex bg-clip-text gradient-bottom-right start-purple-500 end-indigo-400 position-relative">
               Realtime
             </span>{" "}
             Sign Language Recognition
           </h1>
-          <p className="text-lg font-semibold mt-5 px-lg-5">
-            A web-based real-time sign language recognition system using a deep
-            learning transformer architecture with depth information from an
-            Intel Realsense D435, fine-tuned on the multi-modal How2Sign dataset
-            to transcribe American Sign Language (ASL) into English text with an
-            accuracy of 82.5%, enhanced with autocorrect and predictive text
-            functionalities.
-          </p>
+          <div className="text-lg font-semibold mt-4 px-lg-5">
+            {isDescriptionVisible && (
+              <p>
+                Experience cutting-edge communication with our web-based real-time Greek Sign Language recognition system. Powered by a deep learning transformer and depth data from the Intel Realsense D435 camera, our solution delivers seamless continuous transcription with over 80% accuracy. Plus, enjoy enhanced interactions with our smart autocorrect and predictive text features designed to make communication smoother and more intuitive.
+              </p>
+            )}
+            <button
+              className="btn btn-primary mt-3"
+              onClick={() => setDescriptionVisible(!isDescriptionVisible)}
+            >
+              {isDescriptionVisible ? 'Read Less' : 'Read More'}
+              {isDescriptionVisible ? <FaChevronUp className="ms-2" /> : <FaChevronDown className="ms-2" />}
+            </button>
+          </div>
         </div>
-        {/* feature cards */}
+        {/* Feature Cards */}
         <div className="row g-4 g-lg-4">
-          {/* Eleventy card */}
-          <div className="col-12 col-md-6">
-            <div className="position-relative rounded-4 shadow-4-hover bg-surface-secondary">
-              <div className="p-5 p-md-5 p-xl-5">
-                <section>
-                  <header>
-                    <h1 className="h3 ls-tight mb-4">Eleventy</h1>
-                  </header>
-                  <p className="text-muted mb-5">
-                    A simpler static site generator that transforms a directory
-                    of templates into HTML.
+          {/* American Sign Language Recognition */}
+          <div className="col-12 col-md-6 col-lg-3">
+            <div className="card d-flex flex-column h-100 border border-primary shadow-sm">
+              <div className="card-body d-flex flex-column">
+                <div className="text-center mb-4 flex-grow-1">
+                  <FaPlayCircle className="display-1 text-primary mb-3" />
+                  <h2 className="h5 text-primary mb-3">Demo - American Sign Language Recognition (Isolated)</h2>
+                  <p className="text-muted">
+                    Try out the real-time sign language recognition demo using the Intel Realsense D435 and our deep learning model.
                   </p>
-                  <footer>
-                    <a
-                      href="https://www.11ty.dev/docs/"
-                      className="font-semibold link-primary stretched-link"
-                    >
-                      Documentation -&gt;
-                    </a>
-                  </footer>
-                </section>
+                </div>
+                <a
+                  href="/demo"
+                  className="btn btn-outline-primary mt-auto"
+                >
+                  Try the Demo &rarr;
+                </a>
               </div>
             </div>
           </div>
-          {/* Bootstrap 5 card */}
-          <div className="col-12 col-md-6">
-            <div className="position-relative rounded-4 shadow-4-hover bg-surface-secondary">
-              <div className="p-5 p-md-5 p-xl-5">
-                <section>
-                  <header>
-                    <h1 className="h3 ls-tight mb-4">Bootstrap 5</h1>
-                  </header>
-                  <p className="text-muted mb-5">
-                    The worlds most popular framework for building responsive,
-                    mobile-first sites.
+          {/* Greek Sign Language Recognition */}
+          <div className="col-12 col-md-6 col-lg-3">
+            <div className="card d-flex flex-column h-100 border border-success shadow-sm">
+              <div className="card-body d-flex flex-column">
+                <div className="text-center mb-4 flex-grow-1">
+                  <FaRegEdit className="display-1 text-success mb-3" />
+                  <h2 className="h5 text-success mb-3">Demo - Greek Sign Language Recognition (Continuous)</h2>
+                  <p className="text-muted">
+                    Experience the autocorrect and predictive text functionalities integrated with sign language recognition.
                   </p>
-                  <footer>
-                    <a
-                      href="https://getbootstrap.com/docs/"
-                      className="font-semibold link-primary stretched-link"
-                    >
-                      Documentation -&gt;
-                    </a>
-                  </footer>
-                </section>
+                </div>
+                <a
+                  href="#"
+                  className="btn btn-outline-success mt-auto"
+                >
+                  Try the Demo &rarr;
+                </a>
               </div>
             </div>
           </div>
-          {/* Webpixels CSS card */}
-          <div className="col-12 col-md-6">
-            <div className="position-relative rounded-4 shadow-4-hover bg-surface-secondary">
-              <div className="p-5 p-md-5 p-xl-5">
-                <section>
-                  <header>
-                    <h1 className="h3 ls-tight mb-4">Webpixels CSS</h1>
-                  </header>
-                  <p className="text-muted mb-5">
-                    Utility and component-centric design system based on
-                    Bootstrap 5.
+          {/* Team Card */}
+          <div className="col-12 col-md-6 col-lg-3">
+            <div className="card d-flex flex-column h-100 border border-warning shadow-sm">
+              <div className="card-body d-flex flex-column">
+                <div className="text-center mb-4 flex-grow-1">
+                  <FaUsers className="display-1 text-warning mb-3" />
+                  <h2 className="h5 text-warning mb-3">Our Team</h2>
+                  <p className="text-muted">
+                    Learn about the team behind this project, including their roles and contributions to making this system a reality.
                   </p>
-                  <footer>
-                    <a
-                      href="https://webpixels.io/docs/css/"
-                      className="font-semibold link-primary stretched-link"
-                    >
-                      Documentation -&gt;
-                    </a>
-                  </footer>
-                </section>
+                </div>
+                <a
+                  href="/ourteam"
+                  className="btn btn-outline-warning mt-auto"
+                >
+                  Meet the Team &rarr;
+                </a>
               </div>
             </div>
           </div>
-          {/* Webpixels Components card */}
-          <div className="col-12 col-md-6">
-            <div className="position-relative rounded-4 shadow-4-hover bg-surface-secondary">
-              <div className="p-5 p-md-5 p-xl-5">
-                <section>
-                  <header>
-                    <h1 className="h3 ls-tight mb-4">Webpixels Components</h1>
-                  </header>
-                  <p className="text-muted mb-5">
-                    Explore over 500 fully responsive and carefully designed
-                    Bootstrap components.
+          {/* Documentation Card */}
+          <div className="col-12 col-md-6 col-lg-3">
+            <div className="card d-flex flex-column h-100 border border-info shadow-sm">
+              <div className="card-body d-flex flex-column">
+                <div className="text-center mb-4 flex-grow-1">
+                  <FaBook className="display-1 text-info mb-3" />
+                  <h2 className="h5 text-info mb-3">Documentation</h2>
+                  <p className="text-muted">
+                    Access the full documentation for the system, including installation guides, API references, and tutorials.
                   </p>
-                  <footer>
-                    <a
-                      href="https://webpixels.io/components/"
-                      className="font-semibold link-primary stretched-link"
-                    >
-                      Start Using -&gt;
-                    </a>
-                  </footer>
-                </section>
+                </div>
+                <a
+                  href="/documentation"
+                  className="btn btn-outline-info mt-auto"
+                >
+                  View Documentation &rarr;
+                </a>
               </div>
             </div>
           </div>
