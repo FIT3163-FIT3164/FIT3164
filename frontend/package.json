@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "scripts": {
     "start-frontend": "next dev",
-    "start-backend": "cd ../backend && python src/app.py",  
-    "dev": "concurrently \"npm run start-frontend\" \"npm run start-backend\""
+    "start-backend": "cd ../backend && python src/app.py",
+    "dev": "concurrently \"npm run start-frontend\" \"npm run start-backend\"",
+    "build": "next build",  
+    "start": "next start"  
   },
   "dependencies": {
     "concurrently": "^6.0.0",
