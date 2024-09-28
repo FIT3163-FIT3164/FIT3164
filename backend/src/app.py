@@ -28,8 +28,8 @@ mp_drawing = mp.solutions.drawing_utils  # Optional for debugging or visualizati
 hands = mp_hands.Hands(
     static_image_mode=False,
     max_num_hands=2,  # Detect up to 2 hands
-    min_detection_confidence=0.5,  # Confidence for more reliable detection
-    min_tracking_confidence=0.5    # Tracking confidence
+    min_detection_confidence=0.7,  # Confidence for more reliable detection
+    min_tracking_confidence=0.7    # Tracking confidence
 )
 
 @app.route('/predict', methods=['POST'])
