@@ -2,9 +2,9 @@
 @import "bootstrap-icons/font/bootstrap-icons.css";
 @import "@webpixels/css/dist/index.css";
 
-@tailwind base;
+/* @tailwind base;
 @tailwind components;
-@tailwind utilities;
+@tailwind utilities; */
 
 /* Set html and body to full height */
 html, body {

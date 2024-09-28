@@ -3,20 +3,26 @@
   "version": "1.0.0",
   "scripts": {
     "start-frontend": "next dev",
-    "start-backend": "cd ../backend && python src/app.py",  
+    "start-backend": "cd ../backend && python src/app.py",
     "dev": "concurrently \"npm run start-frontend\" \"npm run start-backend\"",
     "build": "next build"
   },
   "dependencies": {
-    "concurrently": "^6.0.0",
+    "@webpixels/css": "^1.2.6",
+    "autoprefixer": "^10.4.19",
     "axios": "^1.7.7",
+    "bootstrap-icons": "^1.11.1",
+    "concurrently": "^6.0.0",
+    "next": "^14.2.3",
+    "postcss": "^8.4.38",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "next": "^14.2.3",
-    "tailwindcss": "^3.4.4", 
-    "autoprefixer": "^10.4.19", 
-    "postcss": "^8.4.38",
-    "react-icons": "^4.0.0" ,
-    "bootstrap-icons": "^1.11.1"
+    "react-icons": "^4.0.0",
+    "tailwindcss": "^3.4.4"
+  },
+  "devDependencies": {
+    "@types/node": "22.7.4",
+    "@types/react": "18.3.10",
+    "typescript": "5.6.2"
   }
 }
