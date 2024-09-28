@@ -62,7 +62,7 @@ export default function Home() {
                   <FaRegEdit className="display-1 text-success mb-3" />
                   <h2 className="h5 text-success mb-3">Greek Sign Language Recognition</h2>
                   <p className="text-muted">
-                  Try out the real-time continuous Greek Sign Language Recognition Recognition demo using the Intel Realsense D435 or any camera and our deep learning model.
+                  Try out the real-time continuous Greek Sign Language Recognition demo using the Intel Realsense D435 or any camera and our deep learning model.
                   </p>
                 </div>
                 <a
