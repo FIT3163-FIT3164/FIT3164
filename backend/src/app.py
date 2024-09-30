@@ -76,7 +76,7 @@ def predict():
     print(f"Hand bounding box: ({x_min}, {y_min}), ({x_max}, {y_max})")
 
     # Add padding to the bounding box
-    padding = 20
+    padding = 30
     x_min = max(x_min - padding, 0)
     y_min = max(y_min - padding, 0)
     x_max = min(x_max + padding, w)
