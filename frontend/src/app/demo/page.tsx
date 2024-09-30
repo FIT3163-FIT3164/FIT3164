@@ -121,7 +121,7 @@ const Demo: React.FC = () => {
       requestCameraAccess(selectedDeviceId);  // Request camera with the selected deviceId
     }
 
-    const fpsIntervalId = setInterval(updateFps, 300);
+    const fpsIntervalId = setInterval(updateFps, 1000);
 
     if (video) {
       video.addEventListener("loadeddata", () => {
@@ -222,7 +222,7 @@ const Demo: React.FC = () => {
     };
   
     // Capture frame every 500ms
-    const intervalId = setInterval(captureFrames, 300);
+    const intervalId = setInterval(captureFrames, 500);
     return () => clearInterval(intervalId);
   }, [videoRef]);
   
@@ -258,7 +258,7 @@ const Demo: React.FC = () => {
             <div className="absolute bottom-0 left-0 m-3 p-2 bg-dark text-white rounded">
               <div>FPS: {fps}</div>
               <div>Resolution: {resolution}</div>
-              <div>Prediction: {prediction || "Waiting for hand..."}</div>
+              <div>Prediction: {prediction || "Loading model....."}</div>
             </div>
             {/* Camera selection dropdown */}
             <div className="text-center mb-4">
