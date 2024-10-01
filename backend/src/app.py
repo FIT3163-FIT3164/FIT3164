@@ -85,7 +85,7 @@ def predict():
     # Crop the image to the hand bounding box
     hand_image = rgb_frame[y_min:y_max, x_min:x_max]
 
-    if hand_image.size == 0:
+    if hand_image.size == 30:
         print("Cropped hand image is empty")
         return jsonify({"prediction": "No hand detected"})
 
