@@ -29,21 +29,31 @@ const Demo: React.FC = () => {
   const [devices, setDevices] = useState<MediaDeviceInfo[]>([]);
   const [selectedDeviceId, setSelectedDeviceId] = useState<string | null>(null);
   const [prediction, setPrediction] = useState<string | null>(null);
+  const [word, setWord] = useState<string>(""); // To hold the word being formed
   const [error, setError] = useState<string | null>(null);
+  const [lastPrediction, setLastPrediction] = useState<string | null>(null); // Track last prediction
+  const [samePredictionStartTime, setSamePredictionStartTime] = useState<number | null>(null); // Time tracking for the same prediction
+
+  // Handle "Clear" button click
+  const handleClear = () => {
+    setWord("");
+  };
+
+  // Handle "Backspace" button click
+  const handleBackspace = () => {
+    setWord((prevWord) => prevWord.slice(0, -1)); // Remove the last character from the word
+  };
 
   useEffect(() => {
-    // Function to request camera access and get the devices
     const getVideoDevices = async () => {
       try {
-        // Prompt user for camera access immediately
         await navigator.mediaDevices.getUserMedia({ video: true });
-
         const devices = await navigator.mediaDevices.enumerateDevices();
         const videoDevices = devices.filter((device) => device.kind === "videoinput");
         setDevices(videoDevices);
 
         if (videoDevices.length > 0 && !selectedDeviceId) {
-          setSelectedDeviceId(videoDevices[0].deviceId);  // Automatically select the first camera
+          setSelectedDeviceId(videoDevices[0].deviceId); // Automatically select the first camera
         }
       } catch (err) {
         console.error("Error accessing video devices:", err);
@@ -67,28 +77,18 @@ const Demo: React.FC = () => {
             height: { exact: 480 }, // Fixed height
           },
         };
-    
-        // Try accessing the camera stream
+
         const stream = await navigator.mediaDevices.getUserMedia(constraints);
-    
+
         if (video) {
           video.srcObject = stream;
           video.play();
         }
       } catch (err) {
         console.error("Error accessing the camera:", err);
-    
-        // Update the error state to display the message
         setError("Failed to access the camera. Please check permissions or device availability.");
-    
-        // Retry without specifying a deviceId to get a fallback default camera
-        if (deviceId) {
-          console.log("Retrying camera access without a specific deviceId...");
-          requestCameraAccess();  // Retry without specifying a deviceId
-        }
       }
     };
-    
 
     let frameCount = 0;
     let startTime = Date.now();
@@ -118,7 +118,7 @@ const Demo: React.FC = () => {
     };
 
     if (selectedDeviceId) {
-      requestCameraAccess(selectedDeviceId);  // Request camera with the selected deviceId
+      requestCameraAccess(selectedDeviceId);
     }
 
     const fpsIntervalId = setInterval(updateFps, 1000);
@@ -141,20 +141,20 @@ const Demo: React.FC = () => {
   useEffect(() => {
     const video = videoRef.current;
     const canvas = canvasRef.current;
-  
+
     const captureFrames = () => {
       if (!video || !canvas) return;
-  
+
       const context = canvas.getContext("2d");
       if (context) {
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
         context.drawImage(video, 0, 0, canvas.width, canvas.height);
-  
+
         canvas.toBlob(async (blob) => {
           if (blob) {
-            console.log("Captured frame size:", canvas.width, canvas.height);  // Log the frame size to ensure proper capture
-  
+            console.log("Captured frame size:", canvas.width, canvas.height);
+
             const formData = new FormData();
             formData.append("frame", blob, "frame.png");
 
@@ -164,17 +164,36 @@ const Demo: React.FC = () => {
               });
 
               const { prediction, landmarks, boundingBox } = response.data;
-              console.log("Prediction:", prediction);  // Log the prediction from the server
               setPrediction(prediction);
+
+              const now = Date.now();
+
+              // Only add the same letter if it's predicted for 3 seconds
+              if (
+                prediction &&
+                prediction !== "No hand detected" &&
+                prediction === lastPrediction
+              ) {
+                if (samePredictionStartTime && now - samePredictionStartTime >= 3000) {
+                  setWord((prev) => prev + prediction); // Add the letter to the word
+                  setSamePredictionStartTime(null); // Reset the timer
+                }
+              } else if (prediction === "No hand detected") {
+                setWord((prev) => prev + " "); // Add a space if no hand is detected
+              } else {
+                setSamePredictionStartTime(Date.now());
+              }
+
+              setLastPrediction(prediction);
 
               // Draw bounding box and landmarks
               if (context && landmarks && boundingBox) {
                 context.clearRect(0, 0, canvas.width, canvas.height);
                 context.drawImage(video, 0, 0, canvas.width, canvas.height);
-                
+
                 // Draw bounding box
-                context.strokeStyle = "green";
-                context.lineWidth = 2;
+                context.strokeStyle = "lightgreen";
+                context.lineWidth = 3;
                 context.strokeRect(
                   boundingBox.x_min,
                   boundingBox.y_min,
@@ -208,11 +227,10 @@ const Demo: React.FC = () => {
                 });
 
                 // Draw predicted letter above bounding box
-                context.fillStyle = "Green";
-                context.font = "20px Arial";
+                context.fillStyle = "lightgreen";
+                context.font = "40px Arial";
                 context.fillText(prediction, boundingBox.x_min, boundingBox.y_min - 10);
               }
-
             } catch (err) {
               console.error("Error sending frame for prediction:", err);
             }
@@ -220,51 +238,41 @@ const Demo: React.FC = () => {
         }, "image/png");
       }
     };
-  
-    // Capture frame every 500ms
+
     const intervalId = setInterval(captureFrames, 500);
     return () => clearInterval(intervalId);
-  }, [videoRef]);
-  
+  }, [videoRef, lastPrediction, samePredictionStartTime]);
+
   return (
     <main className="container-xxl">
-      {/* title and description */}
-      {/* <div className="text-center mt-5 mb-5">
-        <h1 className="display-4 ls-tight">
-          <span className="d-inline-flex bg-clip-text gradient-bottom-right start-purple-500 end-indigo-400 position-relative">
-            Sign Language Recognition Demo
-          </span>
-        </h1>
-        <p className="text-lg font-semibold mt-5 px-lg-5">
-          Experience real-time sign language recognition using the Intel RealSense D435 camera.
-        </p>
-      </div> */}
-      {/* Error message */}
       {error && <div className="alert alert-danger text-center">{error}</div>}
-      
-      {/* video stream container */}
+
       <div className="row justify-content-center mt-2">
         <div ref={containerRef} className="col-auto">
           <div className="position-relative">
-            <video
-              ref={videoRef}
-              className="w-full h-auto rounded-4 shadow-4"
-              autoPlay
-              muted
-            />
+            <video ref={videoRef} className="w-full h-auto rounded-4 shadow-4" autoPlay muted />
             <canvas ref={canvasRef} className="position-absolute" style={{ top: 0, left: 0 }}></canvas>
-            
+
             {/* fps and resolution overlay */}
-            <div className="absolute bottom-0 left-0 m-3 p-2 bg-dark text-white rounded">
-              <div>FPS: {fps}</div>
-              <div>Resolution: {resolution}</div>
+            <div className="absolute bottom-0 left-0 m-3 p-2 bg-dark text-white rounded" style={{ fontSize: '24px' }}>
               <div>Prediction: {prediction || "Loading model....."}</div>
+              <div>Word: {word || "..."}</div>
             </div>
+
+
+            {/* Clear and Backspace Buttons */}
+            <div className="text-center mt-3">
+              <button className="btn btn-danger me-2" onClick={handleClear}>
+                Clear
+              </button>
+              <button className="btn btn-warning" onClick={handleBackspace}>
+                Backspace
+              </button>
+            </div>
+
             {/* Camera selection dropdown */}
             <div className="text-center mb-4">
-              <label htmlFor="cameraSelect" className="form-label">
-                Select Camera:
-              </label>
+              <label htmlFor="cameraSelect" className="form-label">Select Camera:</label>
               <select
                 id="cameraSelect"
                 className="form-select form-select-sm"
