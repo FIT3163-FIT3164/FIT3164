@@ -141,41 +141,45 @@ const Demo: React.FC = () => {
   useEffect(() => {
     const video = videoRef.current;
     const canvas = canvasRef.current;
-
+  
     const captureFrames = () => {
       if (!video || !canvas) return;
-
+  
       const context = canvas.getContext("2d");
       if (context) {
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
         context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
+  
         canvas.toBlob(async (blob) => {
           if (blob) {
             console.log("Captured frame size:", canvas.width, canvas.height);
-
+  
             const formData = new FormData();
             formData.append("frame", blob, "frame.png");
-
+  
             try {
               const response = await axios.post("http://localhost:5000/predict", formData, {
                 headers: { "Content-Type": "multipart/form-data" },
               });
-
+  
               const { prediction, landmarks, boundingBox } = response.data;
               setPrediction(prediction);
-
+  
               const now = Date.now();
-
+  
               // Only add the same letter if it's predicted for 3 seconds
               if (
                 prediction &&
                 prediction !== "No hand detected" &&
                 prediction === lastPrediction
               ) {
-                if (samePredictionStartTime && now - samePredictionStartTime >= 3000) {
-                  setWord((prev) => prev + prediction); // Add the letter to the word
+                if (samePredictionStartTime && now - samePredictionStartTime >= 2000) {
+                  // Ensure only different letters are concatenated together
+                  setWord((prev) => {
+                    const lastChar = prev.slice(-1);
+                    return lastChar !== prediction ? prev + prediction : prev;
+                  });
                   setSamePredictionStartTime(null); // Reset the timer
                 }
               } else if (prediction === "No hand detected") {
@@ -183,14 +187,14 @@ const Demo: React.FC = () => {
               } else {
                 setSamePredictionStartTime(Date.now());
               }
-
+  
               setLastPrediction(prediction);
-
+  
               // Draw bounding box and landmarks
               if (context && landmarks && boundingBox) {
                 context.clearRect(0, 0, canvas.width, canvas.height);
                 context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
+  
                 // Draw bounding box
                 context.strokeStyle = "lightgreen";
                 context.lineWidth = 3;
@@ -200,18 +204,18 @@ const Demo: React.FC = () => {
                   boundingBox.x_max - boundingBox.x_min,
                   boundingBox.y_max - boundingBox.y_min
                 );
-
+  
                 // Draw hand landmarks (red dots and connections)
                 context.fillStyle = "red";
                 const landmarkPoints = landmarks as Landmark[];
-
+  
                 // Draw dots
                 landmarkPoints.forEach(({ x, y }) => {
                   context.beginPath();
                   context.arc(x, y, 5, 0, 2 * Math.PI);
                   context.fill();
                 });
-
+  
                 // Draw connections
                 context.strokeStyle = "white";
                 context.lineWidth = 2;
@@ -225,7 +229,7 @@ const Demo: React.FC = () => {
                     context.stroke();
                   }
                 });
-
+  
                 // Draw predicted letter above bounding box
                 context.fillStyle = "lightgreen";
                 context.font = "40px Arial";
@@ -238,7 +242,7 @@ const Demo: React.FC = () => {
         }, "image/png");
       }
     };
-
+  
     const intervalId = setInterval(captureFrames, 500);
     return () => clearInterval(intervalId);
   }, [videoRef, lastPrediction, samePredictionStartTime]);

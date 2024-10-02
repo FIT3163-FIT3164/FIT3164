@@ -8,7 +8,7 @@
 
 /* Set html and body to full height */
 html, body {
-	background-image: url('/wallpaper3.jpg'); /* No need to include 'public' */
+	background-image: url('/wallpaper4.jpg'); /* No need to include 'public' */
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
@@ -31,3 +31,8 @@ html, body {
 	background-clip: text;
 	-webkit-background-clip: text;
 }
+.text-stroke-white {
+	-webkit-text-stroke: 1px white; /* For Webkit-based browsers */
+	text-stroke: 1px white; /* Standard property */
+  }
+  

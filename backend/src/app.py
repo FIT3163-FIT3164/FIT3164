@@ -14,6 +14,7 @@ CORS(app)
 # Load the model and processor for ASL recognition
 #model_name = "JCYap28/asl_recognition"
 model_name = "manthi01/asl_improved"
+model_arb = "JCYap28/arbsl_recognition"
 model = AutoModelForImageClassification.from_pretrained(model_name)
 processor = ViTImageProcessor.from_pretrained(model_name)
 

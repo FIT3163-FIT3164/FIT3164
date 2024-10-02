@@ -12,7 +12,7 @@ export default function Home() {
         {/* Main Title and Description */}
         <div className="text-center mt-5 mb-5">
           <h1 className="display-4 ls-tight mb-4">
-            <span className="d-inline-flex bg-clip-text gradient-bottom-right start-blue-500 end-indigo-400 position-relative">
+            <span className="d-inline-flex bg-clip-text gradient-bottom-right start-blue-600 end-indigo-500 position-relative">
               Realtime
             </span>{" "}
             Sign Language Recognition
