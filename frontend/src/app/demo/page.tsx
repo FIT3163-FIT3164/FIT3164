@@ -291,6 +291,23 @@ const Demo: React.FC = () => {
                 ))}
               </select>
             </div>
+            {/* Language selection dropdown */}
+            <div className="text-center mb-4">
+              <label htmlFor="languageSelect" className="form-label">Select Language:</label>
+              <select
+                id="languageSelect"
+                className="form-select form-select-sm"
+                style={{ width: '200px', display: 'inline-block' }}
+                onChange={(e) => {
+                  // Placeholder for language change logic
+                  console.log("Selected language:", e.target.value);
+                }}
+                defaultValue="asl"
+              >
+                <option value="asl">American Sign Language</option>
+                <option value="arbsl">Arabic Sign Language</option>
+              </select>
+            </div>
           </div>
         </div>
       </div>

@@ -54,20 +54,20 @@ export default function Home() {
               </div>
             </div>
           </div>
-          {/* Greek Sign Language Recognition */}
+          {/* Arabic Sign Language Recognition */}
           <div className="col-12 col-md-6 col-lg-3">
-            <div className="card d-flex flex-column h-100 border border-success shadow-sm">
+            <div className="card d-flex flex-column h-100 border border-danger shadow-sm">
               <div className="card-body d-flex flex-column">
                 <div className="text-center mb-4 flex-grow-1">
-                  <FaRegEdit className="display-1 text-success mb-3" />
-                  <h2 className="h5 text-success mb-3">Greek Sign Language Recognition</h2>
+                  <FaRegEdit className="display-1 text-danger mb-3" />
+                  <h2 className="h5 text-danger mb-3">Arabic Sign Language Recognition</h2>
                   <p className="text-muted">
-                  Try out the real-time continuous Greek Sign Language Recognition demo using the Intel Realsense D435 or any camera and our deep learning model.
+                    Try out the real-time Arabic Sign Language Recognition demo using the Intel Realsense D435 or any camera and our deep learning model.
                   </p>
                 </div>
                 <a
-                  href="#"
-                  className="btn btn-outline-success mt-auto"
+                  href="/demo"
+                  className="btn btn-outline-danger mt-auto"
                 >
                   Try the Demo &rarr;
                 </a>
