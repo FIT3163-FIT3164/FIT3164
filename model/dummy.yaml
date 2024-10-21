@@ -1,0 +1,65 @@
+trainer:
+  logger: train_CSLR
+  batch_size: 8
+  epochs: 1
+  seed: 42
+  cuda: True
+  gpu: 0
+  save: True
+  log_interval: 1000
+  optimizer:
+    type: AdamW
+    lr: 0.001
+    weight_decay: 0.01
+  scheduler:
+    type: OneCycleLR
+    max_lr: 0.0001
+    total_steps: null
+    pct_start: 0.3
+    anneal_strategy: 'cos'
+    cycle_momentum: True
+    div_factor: 25.0
+    final_div_factor: 10000.0
+  model:
+    name: ViViT
+    pretrained: "google/vivit-b-16x2-kinetics400"
+
+dataset:
+  name: gsl_si
+  modality: full
+  input_data: /content/drive/Shareddrives/FIT3164/model/datasets/gsl
+  images_path: /content/drive/Shareddrives/FIT3164/model/datasets/gsl
+  depth_path: /content/drive/Shareddrives/FIT3164/model/datasets/gsl
+  features_path: /content/drive/Shareddrives/FIT3164/model/datasets/gsl
+  train_filepath: D:\GitHub\FIT3164\model\files\GSL_continuous\gsl_split_SI_train.csv
+  validation_filepath: D:\GitHub\FIT3164\model\files\GSL_continuous\gsl_split_SI_dev.csv
+  test_filepath: D:\GitHub\FIT3164\model\files\GSL_continuous\gsl_split_SI_test.csv
+  bbox_filepath: D:\GitHub\FIT3164\model\files\GSL_continuous\bbox_for_gsl_continuous.txt
+  classes_filepath: D:\GitHub\FIT3164\model\files\GSL_continuous\classes.csv
+  classes: 310
+  normalize:
+    mean: [0.485, 0.456, 0.406]
+    std: [0.229, 0.224, 0.225]
+  padding: True
+  dim: [224, 224]
+  channels: 3
+  img_type: jpg
+  preload_data: False
+  train:
+    batch_size: 2
+    shuffle: True
+    num_workers: 12
+    seq_length: 32
+    augmentation: True
+  validation:
+    batch_size: 2
+    shuffle: False
+    num_workers: 12
+    seq_length: 32
+    augmentation: False
+  test:
+    batch_size: 2
+    shuffle: False
+    num_workers: 12
+    seq_length: 32
+    augmentation: False
