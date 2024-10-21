@@ -64,11 +64,11 @@ export default function RootLayout({
                 <li className="nav-item">
                   <a
                     className="nav-link"
-                    href="#"
+                    href="/demo2"
                     style={{ backgroundColor: "transparent" }}
                   >
                     <FaEdit className="me-2" />
-                    Demo - GSL Recognition
+                    Demo - ArbSL Recognition
                   </a>
                 </li>
                 <li className="nav-item dropdown">

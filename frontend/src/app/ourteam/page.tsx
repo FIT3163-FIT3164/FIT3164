@@ -20,7 +20,7 @@ export default function Team() {
       name: "Manthi",
       role: "Quality Assurance",
       image:
-        "https://media.licdn.com/dms/image/v2/D5603AQGIiP2RZLM1qQ/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1678323398710?e=1731542400&v=beta&t=8qDosG9is1DGBEdwB0QA-nPsq10zt3UblwYbkgcbSWo",
+        "https://media.licdn.com/dms/image/v2/D5603AQHNZzeQhp9wIw/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1729309659423?e=1735171200&v=beta&t=RXUbuqtbtvfd9Rl4t9e4eA2u_6bjjkrU3ADeARc_kBk",
       linkedin: "https://www.linkedin.com/in/manthi-subasinghe-749116234/", // Add actual LinkedIn URLs
     },
   ];

@@ -66,7 +66,7 @@ export default function Home() {
                   </p>
                 </div>
                 <a
-                  href="/demo"
+                  href="/demo2"
                   className="btn btn-outline-danger mt-auto"
                 >
                   Try the Demo &rarr;

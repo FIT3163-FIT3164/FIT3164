@@ -3,7 +3,7 @@ import React from "react";
 const ProjectDescription: React.FC = () => {
   return (
     <section className="min-h-screen flex items-center justify-center bg-transparent py-10 px-4"> {/* Changed background to transparent */}
-      <div className="container max-w-3xl text-center bg-white bg-opacity-40 p-6 rounded-lg shadow-md"> {/* Added white background with opacity */}
+      <div className="container max-w-3xl text-center bg-white bg-opacity-70 p-6 rounded-lg shadow-md"> {/* Added white background with opacity */}
         <h1 className="text-4xl font-bold mb-6 text-blue-600">
           Real-Time Sign Language Recognition Project
         </h1>
